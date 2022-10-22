@@ -5,6 +5,7 @@ import { Movie } from '../entities/movie.entity';
 import { IReturnFavorite } from '../interfaces/IReturnFavorite';
 import { FiltersCreator } from '../../common/utils/filtersCreate.util';
 import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { MovieQueryDto } from '../dto/movie-query.dto';
 
 @ApiTags('movies')
 @Controller('movies')
@@ -12,12 +13,18 @@ export class GetMoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Get()
-  public async findAll(@Query() query: PaginationQueryDto): Promise<Movie[]> {
+  public async findAll(@Query() query: MovieQueryDto): Promise<Movie[]> {
     const filter = FiltersCreator.filterByLikeField(query);
+
+    const filterByPeriod = FiltersCreator.filterByPeriod(query, 'release_year');
 
     const sort = FiltersCreator.sortByField(query);
 
-    return this.moviesService.findAll(query.page, filter, sort);
+    return this.moviesService.findAll(
+      query.page,
+      { ...filter, ...filterByPeriod },
+      sort,
+    );
   }
 
   @Get('/favorites')
