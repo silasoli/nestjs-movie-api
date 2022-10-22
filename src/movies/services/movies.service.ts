@@ -12,12 +12,16 @@ import { Movie } from '../entities/movie.entity';
 import { GenresService } from './genres.service';
 import { join } from 'path';
 import { IReturnFavorite } from '../interfaces/IReturnFavorite';
+import { PaginationService } from '../../common/pagination.service';
 
 @Injectable()
 export class MoviesService {
   @Inject('MOVIES_REPOSITORY')
   private readonly movieRepository: Repository<Movie>;
-  constructor(private readonly genresService: GenresService) {}
+  constructor(
+    private readonly genresService: GenresService,
+    private readonly paginationService: PaginationService,
+  ) {}
 
   private async findByTitle(title: string): Promise<Movie> {
     return this.movieRepository.findOne({ where: { title } });
@@ -42,8 +46,20 @@ export class MoviesService {
     return this.movieRepository.save(movie);
   }
 
-  public async findAll(): Promise<Movie[]> {
-    return this.movieRepository.find({ relations: ['genres'] });
+  public async findAll(
+    page: number,
+    filters: object = {},
+    sort: object = {},
+  ): Promise<Movie[]> {
+    return this.paginationService.findAllPagination(
+      this.movieRepository,
+      page,
+      {
+        relations: ['genres'],
+        where: { ...filters },
+        order: { ...sort },
+      },
+    );
   }
 
   public async findOne(id: string): Promise<Movie> {
