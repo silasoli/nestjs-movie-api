@@ -83,7 +83,7 @@ export class UsersService {
     return this.userRepository.remove(user);
   }
 
-  private async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({ where: { email } });
   }
 }

@@ -7,6 +7,7 @@ import {
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { SeedsService } from './common/services/seeds.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,10 +23,12 @@ async function bootstrap() {
     swaggerOptions: {
       persistAuthorization: true,
       docExpansion: 'none',
-      filter: '',
     },
   };
   SwaggerModule.setup('api', app, document, customOptions);
+
+  await app.get<SeedsService>(SeedsService).start();
+
   await app.listen(3000);
 }
 bootstrap();

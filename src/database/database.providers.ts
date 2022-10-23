@@ -7,35 +7,15 @@ import { AddMoviesIdToMoviesGenresTable1666379793660 } from './migrations/166637
 import { AddGenresIdToMoviesGenresTable1666380135540 } from './migrations/1666380135540-AddGenresIdToMoviesGenresTable';
 import { CreateMoviesGenresTable1666379536044 } from './migrations/1666379536044-CreateMoviesGenresTable';
 
-export const databaseProviders = [
-  {
-    provide: 'DATA_SOURCE',
-    useFactory: async () => {
-      const dataSource = new DataSource({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: 'root',
-        database: 'moviesapi',
-        entities: [__dirname + '/../**/*.entity.js'],
-        synchronize: false,
-      });
-
-      return dataSource.initialize();
-    },
-  },
-];
-
-export const dataSource = new DataSource({
+export const connectionSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'root',
-  database: 'moviesapi',
-  entities: [__dirname + '/../**/*.entity.js'],
+  host: process.env.HOST_DB,
+  port: Number(process.env.PORT_DB),
+  username: process.env.USER_DB,
+  password: process.env.PASSWORD_DB,
+  database: process.env.DATABASE,
   synchronize: false,
+  entities: [__dirname + '/../**/*.entity.js'],
   migrations: [
     CreateUserTable1666230248840,
     CreateBlacklistTable1666375956789,
@@ -46,3 +26,13 @@ export const dataSource = new DataSource({
     AddGenresIdToMoviesGenresTable1666380135540,
   ],
 });
+
+export const databaseProviders = [
+  {
+    provide: 'DATA_SOURCE',
+    useFactory: async () => {
+      const dataSource = connectionSource;
+      return dataSource.initialize();
+    },
+  },
+];

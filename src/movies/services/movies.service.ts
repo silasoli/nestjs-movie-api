@@ -12,7 +12,7 @@ import { Movie } from '../entities/movie.entity';
 import { GenresService } from './genres.service';
 import { join } from 'path';
 import { IReturnFavorite } from '../interfaces/IReturnFavorite';
-import { PaginationService } from '../../common/pagination.service';
+import { PaginationService } from '../../common/services/pagination.service';
 
 @Injectable()
 export class MoviesService {
