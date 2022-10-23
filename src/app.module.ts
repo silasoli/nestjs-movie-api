@@ -7,11 +7,11 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    MoviesModule,
-    UsersModule,
     AuthModule,
-    DatabaseModule,
+    UsersModule,
+    MoviesModule,
     CommonModule,
+    DatabaseModule,
   ],
 })
 export class AppModule {}

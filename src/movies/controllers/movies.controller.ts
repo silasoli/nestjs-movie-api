@@ -47,7 +47,7 @@ export class MoviesController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  public async create(@Body() dto: CreateMovieDto) {
+  public async create(@Body() dto: CreateMovieDto): Promise<Movie> {
     try {
       await this.moviesService.validCreate(dto);
     } catch (error) {
@@ -58,7 +58,10 @@ export class MoviesController {
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  public async update(@Param('id') id: string, @Body() dto: UpdateMovieDto) {
+  public async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateMovieDto,
+  ): Promise<Movie> {
     try {
       await this.moviesService.validUpdate(id, dto);
     } catch (error) {
@@ -69,11 +72,12 @@ export class MoviesController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  public async remove(@Param('id') id: string) {
+  public async remove(@Param('id') id: string): Promise<Movie> {
     return this.moviesService.remove(id);
   }
 
   @Post(':id/cover')
+  @HttpCode(HttpStatus.CREATED)
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: UploadCoverDto })
   @UseInterceptors(FileInterceptor('file', { storage }))
@@ -85,6 +89,7 @@ export class MoviesController {
   }
 
   @Get(':id/cover')
+  @HttpCode(HttpStatus.OK)
   public async getCoverById<T>(
     @Param('id') id: string,
     @Res() res,
@@ -95,8 +100,8 @@ export class MoviesController {
   }
 
   @Delete(':id/cover')
+  @HttpCode(HttpStatus.OK)
   public async removeCoverById(@Param('id') id: string): Promise<Movie> {
     return this.moviesService.updateCover(id, { file: null });
   }
-
 }

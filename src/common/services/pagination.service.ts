@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { IPaginate } from '../interfaces/IPaginate';
 
 @Injectable()
 export class PaginationService {
@@ -7,20 +8,20 @@ export class PaginationService {
     repository: Repository<any>,
     page = 0,
     query: object = {},
-  ): Promise<any> {
+  ): Promise<any[] | IPaginate> {
     const pageSize = 10;
 
-    const numberOfRecords = await repository.count(query);
+    const qtyRecords = await repository.count(query);
 
-    const numberOfPages = Math.ceil(numberOfRecords / pageSize);
+    const qtyPages = Math.ceil(qtyRecords / pageSize);
 
     if (!page) {
       return repository.find(query);
     }
 
     return {
-      numberOfPages,
-      numberOfRecords,
+      qtyRecords,
+      qtyPages,
       records: await repository.find({
         ...query,
         take: pageSize,

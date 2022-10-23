@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateBlacklistDto } from '../dto/create-blacklist';
 import { Blacklist } from '../entities/blacklist.entity';

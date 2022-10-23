@@ -5,12 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { decode, sign } from 'jsonwebtoken';
-import { User } from '../users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { Request } from 'express';
-import { JwtPayload } from './models/jwt-payload.model';
+import { JwtPayload } from '../interfaces/jwt-payload.model';
 import { Repository } from 'typeorm';
-import { CreateBlacklistDto } from './blacklist/dto/create-blacklist';
-import { BlacklistService } from './blacklist/services/blacklist.service';
+import { CreateBlacklistDto } from '../blacklist/dto/create-blacklist';
+import { BlacklistService } from '../blacklist/services/blacklist.service';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +51,7 @@ export class AuthService {
 
     if (!authHeader) throw new BadRequestException('Bad request.');
 
-    const [, token] = authHeader.split(' ');
+    const token = authHeader.split(' ')[1];
 
     return token;
   }

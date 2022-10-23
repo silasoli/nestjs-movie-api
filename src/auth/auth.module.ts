@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { usersProviders } from '../users/providers/users.providers';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { blacklistProviders } from './blacklist/providers/blacklist.providers';
 import { BlacklistService } from './blacklist/services/blacklist.service';
 import { JwtStrategy } from './strategies/jwt.strategy';

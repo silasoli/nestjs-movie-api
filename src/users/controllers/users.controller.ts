@@ -5,7 +5,6 @@ import {
   Body,
   Param,
   Delete,
-  Put,
   HttpCode,
   HttpStatus,
   UseGuards,
@@ -17,6 +16,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from '../entities/user.entity';
 
 @ApiBearerAuth()
 @ApiTags('users')
@@ -27,7 +27,7 @@ export class UsersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  public async create(@Body() dto: CreateUserDto) {
+  public async create(@Body() dto: CreateUserDto): Promise<User> {
     try {
       await this.usersService.validCreate(dto);
     } catch (error) {
@@ -38,19 +38,22 @@ export class UsersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  public async findAll() {
+  public async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  public async findOne(@Param('id') id: string) {
+  public async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne(id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  public async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+  public async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserDto,
+  ): Promise<User> {
     try {
       await this.usersService.validUpdate(id, dto);
     } catch (error) {
@@ -61,7 +64,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  public async remove(@Param('id') id: string) {
+  public async remove(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(id);
   }
 }

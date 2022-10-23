@@ -13,6 +13,7 @@ import { GenresService } from './genres.service';
 import { join } from 'path';
 import { IReturnFavorite } from '../interfaces/IReturnFavorite';
 import { PaginationService } from '../../common/services/pagination.service';
+import { IPaginateMovie } from '../interfaces/IPaginateMovie';
 
 @Injectable()
 export class MoviesService {
@@ -50,7 +51,7 @@ export class MoviesService {
     page: number,
     filters: object = {},
     sort: object = {},
-  ): Promise<Movie[]> {
+  ): Promise<Movie[] | IPaginateMovie> {
     return this.paginationService.findAllPagination(
       this.movieRepository,
       page,

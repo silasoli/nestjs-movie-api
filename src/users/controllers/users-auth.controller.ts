@@ -13,6 +13,7 @@ import { SigninDto } from '../../auth/dto/signin.dto';
 import { UsersAuthService } from '../services/users-auth.service';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { ISignin } from '../interfaces/ISignin';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -21,9 +22,7 @@ export class UsersAuthController {
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  public async signin(
-    @Body() dto: SigninDto,
-  ): Promise<{ name: string; jwtToken: string; email: string }> {
+  public async signin(@Body() dto: SigninDto): Promise<ISignin> {
     return this.usersAuthService.signin(dto);
   }
 

@@ -3,7 +3,8 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { SigninDto } from '../../auth/dto/signin.dto';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../auth/services/auth.service';
+import { ISignin } from '../interfaces/ISignin';
 
 @Injectable()
 export class UsersAuthService {
@@ -11,9 +12,7 @@ export class UsersAuthService {
   private readonly userRepository: Repository<User>;
   constructor(private readonly authService: AuthService) {}
 
-  public async signin(
-    dto: SigninDto,
-  ): Promise<{ name: string; jwtToken: string; email: string }> {
+  public async signin(dto: SigninDto): Promise<ISignin> {
     const user = await this.findByEmail(dto.email);
     const match = await this.checkPassword(dto.password, user);
 
@@ -25,7 +24,7 @@ export class UsersAuthService {
   }
 
   public async logout(authHeader: string): Promise<string> {
-    const [, token] = authHeader.split(' ');
+    const token = authHeader.split(' ')[1];
 
     return this.authService.deleteAccessToken(token);
   }
