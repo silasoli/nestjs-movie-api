@@ -16,7 +16,14 @@ Movie catalog API that counts with CRUD of users, movies and two authentication 
 ```bash
 $ npm install
 ```
-
+## Before running the app
+```bash
+# 1. Make sure the database is created;
+# 2. Fill in all environment variables;
+# 3. Run all migrations;
+# 4. Run the app;
+# 5. Use the default user to manipulate the app.
+```
 ## Running the app
 
 ```bash
@@ -49,16 +56,11 @@ $ npm run test:cov
 $ npx typeorm migration:run -d dist/database/database.providers.js
 
 # create migration file
-$ npx typeorm migration:create src\database\migrations\${name of migration}
+$ npx typeorm migration:create src\database\migrations\{name of migration}
 ```
-
 ## Support
 
 To facilitate the consumption of the API, the Swagger UI library was used, the documentation is located in the "/api" route.
-More information: [Silasoli](https://www.linkedin.com/in/silasoli/)
-
-
-
 ## Contacts
 
 - Linkedin - [Silasoli](https://www.linkedin.com/in/silasoli/)

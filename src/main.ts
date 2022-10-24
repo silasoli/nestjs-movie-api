@@ -29,6 +29,6 @@ async function bootstrap() {
 
   await app.get<SeedsService>(SeedsService).start();
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT_APP);
 }
 bootstrap();
