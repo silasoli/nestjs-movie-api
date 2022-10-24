@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { UsersService } from '../../users/services/users.service';
+import 'dotenv/config';
 
 @Injectable()
 export class SeedsService {

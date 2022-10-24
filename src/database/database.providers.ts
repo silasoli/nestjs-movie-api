@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { CreateUserTable1666230248840 } from './migrations/1666230248840-CreateUserTable';
 import { CreateBlacklistTable1666375956789 } from './migrations/1666375956789-CreateBlacklistTable';
@@ -12,7 +13,7 @@ export const connectionSource = new DataSource({
   host: process.env.HOST_DB,
   port: Number(process.env.PORT_DB),
   username: process.env.USER_DB,
-  password: process.env.PASSWORD_DB,
+  password: process.env.PASS_DB,
   database: process.env.DATABASE,
   synchronize: false,
   entities: [__dirname + '/../**/*.entity.js'],

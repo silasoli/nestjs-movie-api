@@ -4,6 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import 'dotenv/config';
 import { decode, sign } from 'jsonwebtoken';
 import { User } from '../../users/entities/user.entity';
 import { Request } from 'express';
