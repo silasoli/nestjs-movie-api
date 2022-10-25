@@ -1,7 +1,4 @@
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UsersService } from './users.service';
 import * as crypto from 'crypto';
-import { PaginationService } from '../../common/services/pagination.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { UsersAuthService } from './users-auth.service';
 import { SigninDto } from '../../auth/dto/signin.dto';
