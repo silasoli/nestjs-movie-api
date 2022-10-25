@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CreateBlacklistDto } from '../dto/create-blacklist';
+import { CreateBlacklistDto } from '../dto/create-blacklist.dto';
 import { Blacklist } from '../entities/blacklist.entity';
 
 @Injectable()

@@ -10,6 +10,7 @@ import {
   UseGuards,
   BadRequestException,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -17,6 +18,9 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../entities/user.entity';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { FiltersCreator } from '../../common/utils/filtersCreate.util';
+import { IPaginateUser } from '../interfaces/IPaginateUser';
 
 @ApiBearerAuth()
 @ApiTags('users')
@@ -38,8 +42,14 @@ export class UsersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  public async findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  public async findAll(
+    @Query() query: PaginationQueryDto,
+  ): Promise<User[] | IPaginateUser> {
+    const filter = FiltersCreator.filterByLikeField(query);
+
+    const sort = FiltersCreator.sortByField(query);
+
+    return this.usersService.findAll(query.page, { ...filter }, sort);
   }
 
   @Get(':id')

@@ -14,9 +14,7 @@ export class UsersAuthService {
 
   public async signin(dto: SigninDto): Promise<ISignin> {
     const user = await this.findByEmail(dto.email);
-    const match = await this.checkPassword(dto.password, user);
-
-    if (!match) throw new NotFoundException('Invalid credentials.');
+    await this.checkPassword(dto.password, user);
 
     const jwtToken = await this.authService.createAccessToken(user.id);
 

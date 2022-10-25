@@ -9,11 +9,14 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { PaginationService } from '../../common/services/pagination.service';
+import { IPaginateUser } from '../interfaces/IPaginateUser';
 
 @Injectable()
 export class UsersService {
   @Inject('USERS_REPOSITORY')
   private readonly userRepository: Repository<User>;
+  constructor(private readonly paginationService: PaginationService) {}
 
   public async validCreate(dto: CreateUserDto): Promise<void> {
     if (dto.email) {
@@ -38,8 +41,15 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  public async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  public async findAll(
+    page: number,
+    filters: object = {},
+    sort: object = {},
+  ): Promise<User[] | IPaginateUser> {
+    return this.paginationService.findAllPagination(this.userRepository, page, {
+      where: { ...filters },
+      order: { ...sort },
+    });
   }
 
   public async findOne(id: string): Promise<User> {

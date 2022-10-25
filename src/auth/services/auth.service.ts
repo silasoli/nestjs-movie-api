@@ -10,7 +10,7 @@ import { User } from '../../users/entities/user.entity';
 import { Request } from 'express';
 import { JwtPayload } from '../interfaces/jwt-payload.model';
 import { Repository } from 'typeorm';
-import { CreateBlacklistDto } from '../blacklist/dto/create-blacklist';
+import { CreateBlacklistDto } from '../blacklist/dto/create-blacklist.dto';
 import { BlacklistService } from '../blacklist/services/blacklist.service';
 
 @Injectable()
