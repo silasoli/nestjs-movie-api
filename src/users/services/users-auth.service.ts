@@ -15,7 +15,6 @@ export class UsersAuthService {
   public async signin(dto: SigninDto): Promise<ISignin> {
     const user = await this.findByEmail(dto.email);
     await this.checkPassword(dto.password, user);
-
     const jwtToken = await this.authService.createAccessToken(user.id);
 
     return { name: user.name, jwtToken, email: user.email };
@@ -30,6 +29,7 @@ export class UsersAuthService {
   private async findByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { email },
+      select: ['id', 'name', 'email', 'password'],
     });
 
     if (!user) throw new NotFoundException('Email not found.');

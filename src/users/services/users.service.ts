@@ -38,7 +38,11 @@ export class UsersService {
 
     const user = this.userRepository.create(dto);
 
-    return this.userRepository.save(user);
+    const userCreated = await this.userRepository.save(user);
+
+    delete userCreated.password;
+
+    return userCreated;
   }
 
   public async findAll(
