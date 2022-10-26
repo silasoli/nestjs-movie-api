@@ -10,8 +10,6 @@ export const FiltersCreator = {
   filterByLikeField(dto: PaginationQueryDto | MovieQueryDto): object {
     const { fieldSearch, search } = dto;
 
-    if (fieldSearch === 'genre') return this.filterByGenre(search);
-
     if (!fieldSearch || !search) return {};
 
     const filter = { [`${fieldSearch}`]: Like('%' + search + '%') };
@@ -30,10 +28,13 @@ export const FiltersCreator = {
     };
     return filter;
   },
-  filterByGenre(search: string): object {
+  filterByGenre(dto: MovieQueryDto): object {
+    const { genreId } = dto;
+    if (!genreId) return {};
+
     return {
       genres: {
-        id: search,
+        id: genreId,
       },
     };
   },

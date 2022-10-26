@@ -28,13 +28,15 @@ export class GetMoviesController {
   ): Promise<Movie[] | IPaginateMovie> {
     const filter = FiltersCreator.filterByLikeField(query);
 
+    const filterByGenre = FiltersCreator.filterByGenre(query);
+
     const filterByPeriod = FiltersCreator.filterByPeriod(query, 'release_year');
 
     const sort = FiltersCreator.sortByField(query);
 
     return this.moviesService.findAll(
       query.page,
-      { ...filter, ...filterByPeriod },
+      { ...filterByGenre, ...filter, ...filterByPeriod },
       sort,
     );
   }
